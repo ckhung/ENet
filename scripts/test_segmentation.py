@@ -9,10 +9,12 @@ from argparse import ArgumentParser
 from os.path import join
 import argparse
 import sys
-caffe_root = 'ENet/caffe-enet/'  # Change this to the absolute directory to ENet Caffe
-sys.path.insert(0, caffe_root + 'python')
+caffe_root = os.environ['CAFFE_PATH'] # Change this to the absolute directory to ENet Caffe
+
+sys.path.insert(0, caffe_root + '/python')
 import caffe
-sys.path.append('/usr/local/lib/python2.7/site-packages')
+# sys.path.append('/usr/local/lib/python2.7/site-packages')
+sys.path.append('/usr/local/lib/python3.5/site-packages/')
 import cv2
 
 
@@ -67,8 +69,9 @@ if __name__ == '__main__':
     label_colours_bgr = label_colours[..., ::-1]
     cv2.LUT(prediction, label_colours_bgr, prediction_rgb)
 
-    cv2.imshow("ENet", prediction_rgb)
-    key = cv2.waitKey(0)
+#    cv2.imshow("ENet", prediction_rgb)
+#    key = cv2.waitKey(0)
+    cv2.imwrite('result.png',prediction_rgb)
 
     if args.out_dir is not None:
         input_path_ext = args.input_image.split(".")[-1]
