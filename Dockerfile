@@ -32,7 +32,11 @@ RUN make pycaffe
 ENV CAFFE_PATH="/ENet/caffe-enet"
 ENV PYTHONPATH="$CAFFE_PATH/python:$PYTHONPATH"
 
-RUN pip install scikit-image google protobuf
+RUN pip install \
+	scikit-image \
+	google \
+	protobuf \
+	opencv-python
 
 WORKDIR /ENet
 RUN sh enet_weights_zoo/cityscapes_weights.sh
