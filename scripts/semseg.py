@@ -57,6 +57,7 @@ if __name__ == '__main__':
         else:
             print('processing file "' + image_filename + '"')
         input_image = cv2.imread(args.image_files[i], 1).astype(np.float32)
+        orig_shape = input_image.shape[1::-1]
         input_image = cv2.resize(input_image, (input_shape[3], input_shape[2]))
         input_image = np.asarray(input_image.transpose((2, 0, 1)))
         out = net.forward_all(**{net.inputs[0]: input_image})
@@ -68,6 +69,7 @@ if __name__ == '__main__':
         prediction_rgb = np.zeros(prediction.shape, dtype=np.uint8)
         label_palette_bgr = label_palette[..., ::-1]
         cv2.LUT(prediction, label_palette_bgr, prediction_rgb)
+        prediction_rgb = cv2.resize(prediction_rgb, orig_shape)
 
         out_filename = args.out_dir + '/' + image_filename.split('/')[-1]
         cv2.imwrite(out_filename, prediction_rgb)
