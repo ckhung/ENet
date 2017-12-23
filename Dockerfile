@@ -36,7 +36,8 @@ RUN pip install \
 	scikit-image \
 	google \
 	protobuf \
-	opencv-python
+	opencv-python \
+	configargparse
 
 WORKDIR /ENet
 RUN sh enet_weights_zoo/cityscapes_weights.sh
