@@ -3,7 +3,7 @@
 """
 Usage: python semseg.py -c semseg.conf -o ~/result/ *.jpg
 """
-import os, sys, configargparse, warnings
+import os, re, sys, configargparse, warnings
 import numpy as np
 # from os.path import join
 caffe_root = os.environ['CAFFE_PATH'] # Change this to the absolute directory to ENet Caffe
@@ -69,8 +69,9 @@ if __name__ == '__main__':
         prediction_rgb = np.zeros(prediction.shape, dtype=np.uint8)
         label_palette_bgr = label_palette[..., ::-1]
         cv2.LUT(prediction, label_palette_bgr, prediction_rgb)
-        prediction_rgb = cv2.resize(prediction_rgb, orig_shape)
+        prediction_rgb = cv2.resize(prediction_rgb, orig_shape, interpolation=cv2.INTER_NEAREST)
 
         out_filename = args.out_dir + '/' + image_filename.split('/')[-1]
+        out_filename = re.sub(r'\.\w+$', '.png', out_filename)
         cv2.imwrite(out_filename, prediction_rgb)
 
